@@ -10,7 +10,7 @@ export default function Taskmaintainer() {
             <nav className="navbar justify-content-between">
                 <h4 className="navbar-brand">TASK MAINTAINER</h4>
                 <form className="form-inline">
-                    <h4 className='mx-3'>Hi Ram</h4>
+                    <h4 className='mx-3'>Hay Ram</h4>
                     <button className="Logout my-3 my-sm-0">Logout</button>
                 </form>
             </nav>

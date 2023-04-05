@@ -1,26 +1,40 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import './taskmaintainer.css';
 export default function Taskpage2() {
     const [task, setTask] = useState({
         task: "",
-        description: ""
+        description: "",
+        isCheck: false
     });
     const [data, setData] = useState([]);
-    const [check, setCheck] = useState(true)
     function add() {
         setData(pre => [...pre, task])
     }
     function deletebtn(id) {
-        console.log(id, "............")
+        // console.log(id, "............")
         const newList = data.filter((item, i) => i !== id);
         setData(newList)
     }
+
     function checkbox(id) {
-       
-        setCheck((pre) => !pre)
-        // setData(newda)
+        setData((pre) => {
+            pre[id] = { ...pre[id], isCheck: !pre[id].isCheck }
+            console.log(pre, "===>");
+            return pre
+        })
     }
-    // console.log(data)
+    function changeStatus(id) {
+        
+        const updatedData = [...data]
+        updatedData[id].isCheck = updatedData[id].isCheck == false ? true : false
+        setData(updatedData)
+        console.log(updatedData, "update8888");
+
+    }
+
+    console.log(data, 'datadata');
+
+    
     return (
         <>
             <form className='row ' onSubmit={(e) => { e.preventDefault() }} style={{ marginRight: "0px" }} >
@@ -66,16 +80,18 @@ export default function Taskpage2() {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map((item, id) =>
-                        <tr key={id}>
-                            <th scope="row"><input type='checkbox' onClick={() => checkbox(id)}></input></th>
+                    {data.map((item, id) => {
+                        console.log(item)
+                        return (<tr key={id}>
+                            <th scope="row"><input type='checkbox' onChange={() => changeStatus(id)} checked={item.isCheck} /></th>
                             <td className='task'>{item.task}</td>
-                            {check ? <td className='description'>{item.description}</td> :
+                            {item.isCheck ? <td className='description'>{item.description}</td> :
                                 <td >{item.description}</td>}
-                            {check ? <td className='completed'>Not Completed</td> :
-                                <td > Completed</td>}
+                            {item.isCheck ? <td className='completed'> Completed</td> :
+                                <td > not Completed</td>}
                             <td onClick={() => deletebtn(id)}>delete</td>
-                        </tr>)}
+                        </tr>)
+                    })}
 
                 </tbody>
             </table>
