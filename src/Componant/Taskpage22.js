@@ -16,19 +16,13 @@ export default function Taskpage2() {
         setData(newList)
     }
 
-    function checkbox(id) {
-        setData((pre) => {
-            pre[id] = { ...pre[id], isCheck: !pre[id].isCheck }
-            console.log(pre, "===>");
-            return pre
-        })
-    }
+   
     function changeStatus(id) {
         
         const updatedData = [...data]
-        updatedData[id].isCheck = updatedData[id].isCheck == false ? true : false
+        updatedData[id].isCheck = updatedData[id].isCheck === false ? true : false
         setData(updatedData)
-        console.log(updatedData, "update8888");
+        // console.log(updatedData, "update8888");
 
     }
 
