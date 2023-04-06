@@ -1,35 +1,49 @@
 import React, { useState } from 'react'
 import './Loginform.css'
-const Loginform = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    
+import { Link } from 'react-router-dom';
+const Login = () => {
+    const [logindata, setLogindata] = useState({
+        email: "",
+        password: ""
+    });
+    const [allEntry, setAllEntry] = useState([])
+   async function submitForm(e) {
+        e.preventDefault();
+
+        setAllEntry([...allEntry, logindata]);
+        console.log(allEntry)
+
+
+
+    }
     return (
         <>
             <form onSubmit={submitForm}>
                 <div className='loginpage'>
-
+                    <h2 className=" text-center mb-2">
+                        Login
+                    </h2>
                     {/* Email input */}
-                    <div className="form-outline mb-4">
+                    <div className="form-outline mb-2">
                         <input type="email" id="form1Example1" className="form-control"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            value={logindata.email}
+                            onChange={(e) => setLogindata(pre => ({ ...pre, email: e.target.value }))}
                         />
                         <label className="form-label" htmlFor="form1Example1">
                             Email address
                         </label>
                     </div>
                     {/* Password input */}
-                    <div className="form-outline mb-4">
+                    <div className="form-outline mb-2">
                         <input type="password" id="form1Example2" className="form-control"
-                            onChange={(e) => setPassword(e.target.value)}
-                            value={password} />
+                            onChange={(e) => setLogindata(pre => ({ ...pre, password: e.target.value }))}
+                            value={logindata.password} />
                         <label className="form-label" htmlFor="form1Example2">
                             Password
                         </label>
                     </div>
                     {/* 2 column grid layout for inline styling */}
-                    <div className="row mb-4">
+                    <div className="row mb-2">
                         <div className="col d-flex justify-content-center">
                             {/* Checkbox */}
                             <div className="form-check">
@@ -53,7 +67,9 @@ const Loginform = () => {
                     </div>
                     {/* Submit button */}
                     <button type="submit" className="btn btn-primary btn-block">
-                        Sign in
+                        <Link to='/Taskmaintainer' style={{
+                            color: 'white'
+                        }}> Login</Link>
                     </button>
                 </div>
             </form>
@@ -62,4 +78,4 @@ const Loginform = () => {
     )
 }
 
-export default Loginform
+export default Login

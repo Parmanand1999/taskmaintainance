@@ -2,14 +2,18 @@
 import './App.css';
 import React from 'react';
 import Taskmaintainer from './Componant/Taskmaintainer';
-// import Loginform from './Componant/forms/Loginform';
+
+import { Routes, Route } from 'react-router-dom';
+import Signup from './Componant/forms/Sign';
+import Login from './Componant/forms/Login';
 function App() {
   return (
     <>
-      <header>
-        <Taskmaintainer />
-      </header>
-      {/* <Loginform /> */}
+      <Routes>
+        <Route path='/Login' element={<Login />} />
+        <Route path='/Taskmaintainer' element={<Taskmaintainer />} />
+        <Route path='/Signup' element={< Signup/>} />
+      </Routes>
     </>
   );
 }
