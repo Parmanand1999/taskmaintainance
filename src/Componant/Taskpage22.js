@@ -1,6 +1,13 @@
-import React, { useState } from 'react';
+import React, {  useState } from 'react';
 import './taskmaintainer.css';
+// import { useNavigate } from 'react-router-dom';
 export default function Taskpage2() {
+    // const navigate=useNavigate()
+    // useEffect(() => { 
+    //     if (localStorage.getItem("token")) {
+    //         navigate('/')
+    //     }
+    // },[])
     const [task, setTask] = useState({
         task: "",
         description: "",
