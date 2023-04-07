@@ -1,21 +1,38 @@
 import React, { useState } from 'react'
 import './Loginform.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 const Login = () => {
+    const navigate= useNavigate()
     const [logindata, setLogindata] = useState({
         email: "",
         password: ""
     });
     const [allEntry, setAllEntry] = useState([])
-   async function submitForm(e) {
+    function submitForm(e) {
         e.preventDefault();
-
-        setAllEntry([...allEntry, logindata]);
-        console.log(allEntry)
-
-
+        fetch('https://todo-api-xu4f.onrender.com/user/login', {
+            method: 'POST',
+            body: JSON.stringify(logindata),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+        })
+            .then((response) => response.json())
+            .then((result) => {
+                setAllEntry(pre => [...pre, result])
+                localStorage.setItem("token", result.access_token)
+                if (!localStorage.getItem("token")){
+                    navigate('/Taskmaintainer')  
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
 
     }
+
+    console.log(allEntry, "..................allentry")
+
     return (
         <>
             <form onSubmit={submitForm}>
@@ -62,14 +79,12 @@ const Login = () => {
                         </div>
                         <div className="col">
                             {/* Simple link */}
-                            <a href="#!">Forgot password?</a>
+                            <Link to="/Signup">Signup</Link>
                         </div>
                     </div>
                     {/* Submit button */}
                     <button type="submit" className="btn btn-primary btn-block">
-                        <Link to='/Taskmaintainer' style={{
-                            color: 'white'
-                        }}> Login</Link>
+                        Login
                     </button>
                 </div>
             </form>
