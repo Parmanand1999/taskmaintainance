@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import './Loginform.css'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 const Login = () => {
-    const navigate= useNavigate()
+    const navigate = useNavigate()
     const [logindata, setLogindata] = useState({
         email: "",
         password: ""
@@ -21,11 +21,13 @@ const Login = () => {
             .then((result) => {
                 setAllEntry(pre => [...pre, result])
                 localStorage.setItem("token", result.access_token)
-                if (!localStorage.getItem("token")){
-                    navigate('/Taskmaintainer')  
+                if (localStorage.getItem("token")) {
+                    navigate('/Taskmaintainer')
                 }
+            
             })
-            .catch(error => {
+
+            .catch((error) => {
                 console.log(error)
             })
 

@@ -1,28 +1,60 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Signup.css'
 function Signup() {
+    const navigat = useNavigate()
     const [signdata, setSignData] = useState({
         firstName: "",
         lastName: "",
         email: "",
         password: "",
-        confirm_password: ""
+        confirm_password: "",
     })
     const [allsigndata, setAllsignData] = useState([]);
-    function Register() {
-        // setAllsignData(pre => [...pre, signdata])
+    const [firstnameplace, setFirstnameplace] = useState(false);
+    const [lastnameplace, setLastnameplace] = useState(false);
+    const [emailplace, setEmailplace] = useState(false);
+    const [passwordplace, setPasswordplace] = useState(false);
+    const [conformpasswordplace, setConfirmpasswordplace] = useState(false);
 
-        fetch('https://todo-api-xu4f.onrender.com/user/register', {
-            method: 'POST',
-            body: JSON.stringify(signdata),
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-            },
-        })
-            .then((response) => response.json())
-            .then((result) => setAllsignData(pre => [...pre, result]));
-        //  .catch ((error) => console.log( error ,"cant't fetch data"))
+
+    function Register() {
+        let erro = 0
+        if (signdata.firstName.length < 1) {
+            setFirstnameplace(true);
+            erro++;
+        }
+        if (signdata.lastName.length < 1) {
+            setLastnameplace(true)
+            erro++;
+        }
+        if (signdata.email.length < 1) {
+            setEmailplace(true)
+            erro++;
+        }
+        if (signdata.password.length < 1) {
+            setPasswordplace(true)
+            erro++;
+        }
+        if (signdata.password.length < 1) {
+            setConfirmpasswordplace(true)
+            erro++;
+        }
+
+        if (erro === 0) {
+
+            fetch('https://todo-api-xu4f.onrender.com/user/register', {
+                method: 'POST',
+                body: JSON.stringify(signdata),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })
+                .then((response) => response.json())
+                .then((result) => setAllsignData(pre => [...pre, result]))
+                .catch((error) => { console.log(error) })
+            navigat("/")
+        }
     }
     console.log(allsigndata)
     return (
@@ -34,27 +66,21 @@ function Signup() {
                     <h2 className=" text-center mb-1">
                         Create an account
                     </h2>
-                    {/* <input
-                        value={signdata.username
-                        }
-                        onChange={(e) => setSignData(pre => ({ ...pre, username: e.target.value }))}
-                        type="text"
-                        id="form3Example1cg"
-                        className="form-control form-control-sm"
-                    />
+
                     <label className="form-label" htmlFor="form3Example1cg">
-                        User Name
-                    </label> */}
+                        first Name
+                    </label>
                     <input
-                        value={signdata.firstName
-                        }
+                        value={signdata.firstName}
                         onChange={(e) => setSignData(pre => ({ ...pre, firstName: e.target.value }))}
                         type="text"
+                        placeholder="Enter your first name"
                         id="form3Example1cg"
                         className="form-control form-control-sm "
                     />
-                    <label className="form-label" htmlFor="form3Example1cg">
-                        first Name
+                    {firstnameplace ? <span style={{ color: "red" }}>First Name is required<br /></span> : ""}
+                    <label className="form-label mb-0" htmlFor="form3Example1cg">
+                        Last Name
                     </label>
                     <input
                         value={signdata.lastName
@@ -62,64 +88,55 @@ function Signup() {
                         onChange={(e) => setSignData(pre => ({ ...pre, lastName: e.target.value }))}
                         type="text"
                         id="form3Example1cg"
+                        placeholder={"Enter your Last name"}
                         className="form-control form-control-sm"
                     />
-                    <label className="form-label mb-0" htmlFor="form3Example1cg">
-                        Last Name
-                    </label>
+                    {lastnameplace ? <span style={{ color: "red" }}>First Name is required</span> : ""}
                 </div>
+                <label className="form-label" htmlFor="form3Example3cg">
+                    Your Email
+                </label>
                 <div className="form-outline ">
                     <input
                         value={signdata.email}
                         onChange={(e) => setSignData(pre => ({ ...pre, email: e.target.value }))}
                         type="email"
                         id="form3Example3cg"
+                        placeholder={"Enter your email"}
                         className="form-control form-control-sm"
                     />
-                    <label className="form-label" htmlFor="form3Example3cg">
-                        Your Email
-                    </label>
+                    {emailplace ? <span style={{ color: "red" }}>Email is required</span> : ""}
                 </div>
                 <div className="form-outline">
+                    <label className="form-label" htmlFor="form3Example4cg">
+                        Password
+                    </label>
                     <input
                         value={signdata.password}
                         onChange={(e) => setSignData(pre => ({ ...pre, password: e.target.value }))}
                         type="password"
+                        placeholder={"Enter your Password"}
                         id="form3Example4cg"
                         className="form-control form-control-sm "
                     />
-                    <label className="form-label" htmlFor="form3Example4cg">
-                        Password
-                    </label>
+                    {passwordplace ? <span style={{ color: "red" }}>Password is required</span> : ""}
                 </div>
                 <div className="form-outline">
+                    <label className="form-label" htmlFor="form3Example4cg">
+                        Confirm-Password
+                    </label>
                     <input
                         value={signdata.confirm_password}
                         onChange={(e) => setSignData(pre => ({ ...pre, confirm_password: e.target.value }))}
                         type="password"
                         id="form3Example4cg"
+                        placeholder=' Confirm-Password'
                         className="form-control form-control-sm "
                     />
-                    <label className="form-label" htmlFor="form3Example4cg">
-                        Confirm-Password
-                    </label>
+                    {conformpasswordplace ? <span style={{ color: "red" }}>confirm_password is required</span> : ""}
                 </div>
-                <div className="form-check d-flex justify-content-center mb-1 ">
-                    <input
-                        style={{ marginRight: '89%' }}
-                        className="form-check-input d-flex"
-                        type="checkbox"
-                        defaultValue=""
-                        id="form2Example3cg"
-                    />
-                    <label className="form-check-label" htmlFor="form2Example3g">
-                        I agree all statements in{" "}
-                        <a href="#!" className="text-body">
-                            <u>Terms of service</u>
-                        </a>
-                    </label>
-                </div>
-                <div className="d-flex justify-content-center">
+
+                <div className="d-flex mt-2 justify-content-center">
                     <button
                         onClick={Register}
                         type="button"
