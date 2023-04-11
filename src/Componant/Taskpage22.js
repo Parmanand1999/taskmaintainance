@@ -1,31 +1,72 @@
-import React, {  useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './taskmaintainer.css';
-// import { useNavigate } from 'react-router-dom';
+
 export default function Taskpage2() {
-    // const navigate=useNavigate()
-    // useEffect(() => { 
-    //     if (localStorage.getItem("token")) {
-    //         navigate('/')
-    //     }
-    // },[])
+    const getToken = localStorage.getItem("token")
     const [task, setTask] = useState({
-        task: "",
+        title: "",
         description: "",
-        isCheck: false
+        isCheck: false,
+        tags: []
     });
     const [data, setData] = useState([]);
-    function add() {
-        setData(pre => [...pre, task])
+    function Add() {
+        // setData(pre => [...pre, task])
+
+        console.log(getToken)
+        fetch('https://todo-api-xu4f.onrender.com/user/addTodo', {
+            method: 'POST',
+            body: JSON.stringify(task),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                'Authorization': 'Bearer ' + getToken
+            },
+        })
+            .then((response) => response.json())
+            .then((result) => {
+                console.log(result, "............result")
+            })
+            .catch((error) => { console.log(error) })
+
+        fetch('https://todo-api-xu4f.onrender.com/user/all-todo', {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                'Authorization': 'Bearer ' + getToken
+            },
+        })
+            .then((response) => response.json())
+            .then((result) => {
+                console.log(result, "--->result")
+                setData(result.AllTodo)
+            })
+            .catch((error) => { console.log(error) })
+        console.log(data, "............dataresult")
     }
+    useEffect(() => {
+        fetch('https://todo-api-xu4f.onrender.com/user/all-todo', {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                'Authorization': 'Bearer ' + getToken,
+            },
+        })
+            .then((response) => response.json())
+            .then((result) => {
+                console.log(result, "------------->result")
+                setData(result.AllTodo)
+            })
+            .catch((error) => { console.log(error) })
+    }, [getToken])
     function deletebtn(id) {
         // console.log(id, "............")
         const newList = data.filter((item, i) => i !== id);
         setData(newList)
     }
 
-   
+
     function changeStatus(id) {
-        
+
         const updatedData = [...data]
         updatedData[id].isCheck = updatedData[id].isCheck === false ? true : false
         setData(updatedData)
@@ -33,9 +74,6 @@ export default function Taskpage2() {
 
     }
 
-    console.log(data, 'datadata');
-
-    
     return (
         <>
             <form className='row ' onSubmit={(e) => { e.preventDefault() }} style={{ marginRight: "0px" }} >
@@ -44,9 +82,9 @@ export default function Taskpage2() {
                     <div className="form-group my-2 ">
                         <label htmlFor="exampleFormControlInput1">Enter Task</label>
                         <input
-                            value={task.task}
+                            value={task.title}
 
-                            onChange={(e) => setTask(pre => ({ ...pre, task: e.target.value }))}
+                            onChange={(e) => setTask(pre => ({ ...pre, title: e.target.value }))}
                             type="text"
                             className="form-control"
                             id="exampleFormControlInput1"
@@ -64,7 +102,7 @@ export default function Taskpage2() {
                             placeholder='Write your thoghts here'
                         />
                     </div>
-                    <button className=' btn ADDTASK col-12 m-3 mx-1' onClick={add}>ADD TASK</button>
+                    <button className=' btn ADDTASK col-12 m-3 mx-1' onClick={Add}>ADD TASK</button>
                 </div>
                 <div className='col-2'></div>
 
@@ -81,11 +119,15 @@ export default function Taskpage2() {
                     </tr>
                 </thead>
                 <tbody>
+
                     {data.map((item, id) => {
-                        console.log(item)
+                        // console.log(data, "...........>>>>>>>>>>>dddddd.")
+                        console.log(item, ">>>>>>>>>>>>>>item")
+
+                        console.log(item.title, ">>>>>>>>>>>>>>item")
                         return (<tr key={id}>
                             <th scope="row"><input type='checkbox' onChange={() => changeStatus(id)} checked={item.isCheck} /></th>
-                            <td className='task'>{item.task}</td>
+                            <td className='task'>{item.title}</td>
                             {item.isCheck ? <td className='description'>{item.description}</td> :
                                 <td >{item.description}</td>}
                             {item.isCheck ? <td className='completed'> Completed</td> :

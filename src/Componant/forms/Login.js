@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './Loginform.css'
-import { Link,useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 const Login = () => {
     const navigate = useNavigate()
     const [logindata, setLogindata] = useState({
@@ -20,11 +20,15 @@ const Login = () => {
             .then((response) => response.json())
             .then((result) => {
                 setAllEntry(pre => [...pre, result])
+                // console.log(result, "..................result")
                 localStorage.setItem("token", result.access_token)
-                if (localStorage.getItem("token")) {
+                if (localStorage.getItem("token") && result.message !== ("Invalid  password") && result.message !== ("invalid email")) {
                     navigate('/Taskmaintainer')
                 }
-            
+                else {
+                    alert("Invalid Email or password")
+
+                }
             })
 
             .catch((error) => {

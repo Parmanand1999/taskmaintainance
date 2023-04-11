@@ -36,7 +36,7 @@ function Signup() {
             setPasswordplace(true)
             erro++;
         }
-        if (signdata.password.length < 1) {
+        if (signdata.password !== signdata.confirm_password) {
             setConfirmpasswordplace(true)
             erro++;
         }
@@ -133,7 +133,7 @@ function Signup() {
                         placeholder=' Confirm-Password'
                         className="form-control form-control-sm "
                     />
-                    {conformpasswordplace ? <span style={{ color: "red" }}>confirm_password is required</span> : ""}
+                    {conformpasswordplace ? <span style={{ color: "red" }}>confirm_password is Invalid</span> : ""}
                 </div>
 
                 <div className="d-flex mt-2 justify-content-center">
