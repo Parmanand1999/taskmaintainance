@@ -3,6 +3,7 @@
     background-color: rgb(34, 34, 78);
     color: white;
 
+
 }
 .Logout{
     border:2px solid transparent;
@@ -29,4 +30,9 @@ color: gray;
 }
 .completed{
     color: gray;
+    }
+    @media only screen and (min-width: 400px)  {
+        .navbar{
+            width: 100%;
+        }
     }
