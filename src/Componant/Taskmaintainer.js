@@ -18,10 +18,10 @@ export default function Taskmaintainer() {
     return (
         <div>
 
-            <nav className="navbar justify-content-between">
+            <nav className=" navbarfirst w-100 navbar justify-content-between">
                 <h4 className="navbar-brand">TASK MAINTAINER</h4>
                 <form className="form-inline">
-                   
+
                     <button className="Logout my-3 my-sm-0" onClick={logouthandler}>Logout</button>
                 </form>
             </nav>
