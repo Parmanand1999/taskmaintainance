@@ -120,21 +120,21 @@ export default function Taskpage2() {
                 </thead>
                 <tbody>
 
-                    {data.map((item, id) => {
-                        // console.log(data, "...........>>>>>>>>>>>dddddd.")
-                        console.log(item, ">>>>>>>>>>>>>>item")
+                    {data.map((item, id) =>
+                    // console.log(data, "...........>>>>>>>>>>>dddddd.")
+                    // console.log(item, ">>>>>>>>>>>>>>item")
 
-                        console.log(item.title, ">>>>>>>>>>>>>>item")
-                        return (<tr key={id}>
-                            <th scope="row"><input type='checkbox' onChange={() => changeStatus(id)} checked={item.isCheck} /></th>
-                            <td className='task'>{item.title}</td>
-                            {item.isCheck ? <td className='description'>{item.description}</td> :
-                                <td >{item.description}</td>}
-                            {item.isCheck ? <td className='completed'> Completed</td> :
-                                <td > not Completed</td>}
-                            <td onClick={() => deletebtn(id)}>delete</td>
-                        </tr>)
-                    })}
+                    // console.log(item.title, ">>>>>>>>>>>>>>item")
+                    (<tr key={id}>
+                        <th scope="row"><input type='checkbox' onChange={() => changeStatus(id)} checked={item.isCheck} /></th>
+                        <td className='task'>{item.title}</td>
+                        {item.isCheck ? <td className='description'>{item.description}</td> :
+                            <td >{item.description}</td>}
+                        {item.isCheck ? <td className='completed'> Completed</td> :
+                            <td > not Completed</td>}
+                        <td onClick={() => deletebtn(id)}>delete</td>
+                    </tr>)
+                    )}
 
                 </tbody>
             </table>
